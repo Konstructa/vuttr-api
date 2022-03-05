@@ -11,30 +11,17 @@ services:
     command: npm run start:dev
     ports:
       - 3000:3000
-      - 9229:9229
-    networks:
-      - nesjs-network
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    restart: unless-stopped
-  prod:
-    container_name: vuttr-api-prod
-    image: vuttr-api-prod:1.0.0
-    build:
-      context: .
-      target: production
-      dockerfile: ./Dockerfile
-    command: npm run start:prod
-    ports:
-      - 3000:3000
-      - 9229:9229
-    networks:
-      - nesjs-network
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    restart: unless-stopped
+    depends_on: 
+    - mysql_server
 
-networks:
-  nesjs-network:
+  db:
+    container_name: vuttr-database
+    image: mysql:8
+    environment: 
+    - MYSQL_DATABASE=${MYSQL_DATABASE}
+    - MYSQL_USER=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_USER}
+    - MYSQL_ROOT_PASSWORD=${MYSQL_USER}
