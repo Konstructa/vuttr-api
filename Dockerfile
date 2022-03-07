@@ -6,12 +6,10 @@ COPY package*.json ./
 
 RUN npm install glob rimraf
 
-RUN npm i -g typeorm ts-node
-
-RUN npm install --only=development
+RUN npm install
 
 COPY . .
 
-RUN npm run start:dev
+RUN npm run build
 
 CMD ["node", "dist/main"]

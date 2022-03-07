@@ -7,21 +7,29 @@ services:
     build:
       context: .
       target: development
-      dockerfile: ./Dockerfile
-    command: npm run start:dev
+      dockerfile: Dockerfile
+    command: npm run start:debug
+    environment:
+      # localhost
+      DATABASE_URL: 'mysql'
+      NODE_ENV: development
+      PORT: 3000
     ports:
       - 3000:3000
+      - 9229:9229
+    restart: unless-stopped
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on: 
-    - mysql_server
+    depends_on:
+      - db
 
   db:
     container_name: vuttr-database
     image: mysql:8
-    environment: 
-    - MYSQL_DATABASE=${MYSQL_DATABASE}
-    - MYSQL_USER=${MYSQL_USER}
-    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
