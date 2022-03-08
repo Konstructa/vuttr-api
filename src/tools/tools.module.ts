@@ -9,4 +9,4 @@ import { DatabaseModule } from 'src/database/database.module';
   controllers: [ToolsController],
   providers: [...toolsProviders, ToolsService],
 })
-export class ToolsModule {} 
+export class ToolsModule {}
