@@ -34,7 +34,7 @@ export class ToolsService {
   delete(id: number) {
     try {
       this.toolsRepository.delete(id);
-      return '{}';
+      return {};
     } catch {
       return 'Internal Error';
     }
