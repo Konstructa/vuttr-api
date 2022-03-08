@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { ToolsService } from './tools.service';
 
@@ -7,18 +15,16 @@ export class ToolsController {
   constructor(private readonly toolsService: ToolsService) {}
 
   @Get()
-  getAll() {
-    return this.toolsService.getAll();
+  getAll(@Query('tag') tag: string) {
+    if (!tag) {
+      return this.toolsService.getAll();
+    }
+    return this.toolsService.getByTagName(tag);
   }
 
   @Post()
   create(@Body() createToolDto: CreateToolDto) {
     return this.toolsService.create(createToolDto);
-  }
-
-  @Get('/?tag=:tag')
-  getByTagName(@Param('tag') tag: string) {
-    return this.toolsService.getByTagName(tag);
   }
 
   @Delete('/:id')
