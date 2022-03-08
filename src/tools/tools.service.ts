@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { In, Raw, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { Tool } from './entities/tool.entity';
 
@@ -18,8 +17,7 @@ export class ToolsService {
   async create(createToolDto: CreateToolDto) {
     try {
       const newTool = this.toolsRepository.create(createToolDto);
-      const result = await this.toolsRepository.save(newTool);
-      return result;
+      return this.toolsRepository.save(newTool);
     } catch (error) {
       return error;
     }
