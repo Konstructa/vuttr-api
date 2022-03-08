@@ -27,8 +27,8 @@ export class ToolsController {
     return this.toolsService.create(createToolDto);
   }
 
-  @Delete('/:id')
-  delete(@Param('id') id: number) {
+  @Delete(':id')
+  delete(@Param('id') id: string) {
     return this.toolsService.delete(+id);
   }
 }
