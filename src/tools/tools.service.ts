@@ -30,4 +30,13 @@ export class ToolsService {
       where: { tags: In([tag]) },
     });
   }
+
+  delete(id: number) {
+    try {
+      this.toolsRepository.delete(id);
+      return '{}';
+    } catch {
+      return 'Internal Error';
+    }
+  }
 }
