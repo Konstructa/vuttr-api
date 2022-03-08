@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Raw, Repository } from 'typeorm';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { Tool } from './entities/tool.entity';
 
@@ -26,9 +26,9 @@ export class ToolsService {
   }
 
   async getByTagName(tag: string) {
-    return this.toolsRepository.find({
-      where: { tags: In([tag]) },
-    });
+    return this.toolsRepository.query(
+      `SELECT * FROM tools WHERE JSON_SEARCH(tags -> '$[*]', 'all', '${tag}') IS NOT NULL;`,
+    );
   }
 
   delete(id: number) {
