@@ -14,4 +14,9 @@ export class UsersService {
     return Promise.resolve(users);
   }
 
+  findOne(id: number) {
+    const users = this.users.find((user) => user.id === id);
+    if (!users) return undefined;
+    return Promise.resolve(users);
+  }
 }
