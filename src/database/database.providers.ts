@@ -1,4 +1,3 @@
-import { dirname } from 'path/posix';
 import { createConnection } from 'typeorm';
 import 'dotenv';
 
