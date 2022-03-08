@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { Tool } from './entities/tool.entity';
 
@@ -23,5 +23,11 @@ export class ToolsService {
     } catch (error) {
       return error;
     }
+  }
+
+  async getByTagName(tag: string) {
+    return this.toolsRepository.find({
+      where: { tags: In([tag]) },
+    });
   }
 }
