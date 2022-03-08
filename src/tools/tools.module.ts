@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ToolsController } from './tools.controller';
+import { toolsProviders } from './entities/tools.providers';
+import { ToolsService } from './tools.service';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature()],
-  controllers: [],
-  providers: [],
+  imports: [DatabaseModule],
+  controllers: [ToolsController],
+  providers: [...toolsProviders, ToolsService],
 })
-export class ToolsModule {}
+export class ToolsModule {} 
