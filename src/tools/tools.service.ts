@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { Tool } from './entities/tool.entity';
@@ -24,9 +24,20 @@ export class ToolsService {
   }
 
   async getByTagName(tag: string) {
-    return this.toolsRepository.query(
+    const result = await this.toolsRepository.query(
       `SELECT * FROM tools WHERE JSON_SEARCH(tags -> '$[*]', 'all', '${tag}') IS NOT NULL;`,
     );
+
+    if (result.length === 0)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Nenhum resultado encontrado com essa tag',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+
+    return result;
   }
 
   delete(id: number) {
