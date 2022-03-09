@@ -75,4 +75,14 @@ export class AuthService {
       }),
     };
   }
+
+  async logout(refreshStr) {
+    const refreshToken = await this.retrieveRefreshToke(refreshStr);
+
+    if (!refreshToken) return;
+
+    this.refreshTokens = this.refreshTokens.filter(
+      (refreshToken) => refreshToken.id !== refreshToken.id,
+    );
+  }
 }
