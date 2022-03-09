@@ -10,10 +10,28 @@ export class AuthService {
 
   constructor(private readonly userService: UsersService) {}
 
+  async refresh(refreshStr: string) {
+    const refreshToken = await this.retrieveRefreshToke(refreshStr);
+
+    if (!refreshToken) return undefined;
+
+    const user = await this.userService.findOne(refreshToken.userId);
+
+    if (!user) return undefined;
+
+    const acessToken = {
+      userId: refreshToken.userId,
+    };
+
+    return sign(acessToken, process.env.JWT_SECRET, { expiresIn: '1h' });
+  }
+
   private retrieveRefreshToke(refreshStr: string) {
     try {
       const decoded = verify(refreshStr, process.env.REFRESH_SECRET);
+
       if (typeof decoded === 'string') return undefined;
+
       return Promise.resolve(
         this.refreshTokens.find((token) => token.id === decoded.id),
       );
@@ -28,6 +46,7 @@ export class AuthService {
     values: { userAgent: string; ipAdress: string },
   ) {
     const user = await this.userService.findByEmail(email);
+
     if (!user) return undefined;
     //para hash
     if (user.password !== password) return undefined;
@@ -51,7 +70,7 @@ export class AuthService {
 
     return {
       refreshToken: refreshObject.sign(),
-      acessToken: sign({ userId: user.id }, process.env.ACCESS_SECRET, {
+      acessToken: sign({ userId: user.id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       }),
     };
