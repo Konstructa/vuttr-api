@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { ToolsService } from './tools.service';
 
@@ -14,6 +16,7 @@ import { ToolsService } from './tools.service';
 export class ToolsController {
   constructor(private readonly toolsService: ToolsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll(@Query('tag') tag: string) {
     if (!tag) {
