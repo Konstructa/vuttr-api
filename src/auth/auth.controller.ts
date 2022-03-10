@@ -7,7 +7,7 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token-dto';
@@ -18,9 +18,16 @@ export class AuthController {
 
   @Post('login')
   @ApiBody({ type: LoginDto })
+  @ApiOperation({
+    summary: 'Fazer o login',
+  })
   @ApiResponse({
     status: 400,
     description: 'Retorna os erros pelo class-validator',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Retorna o token e o refreshToken',
   })
   @ApiResponse({
     status: 401,
@@ -48,9 +55,16 @@ export class AuthController {
 
   @Post('refresh')
   @ApiBody({ type: RefreshTokenDto })
+  @ApiOperation({
+    summary: 'Resgatar um refresh token',
+  })
   @ApiResponse({
     status: 400,
     description: 'Retorna os erros pelo class-validator',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Retorna novo refresh token',
   })
   async refreshToken(@Body() body: RefreshTokenDto) {
     return this.authService.refresh(body.refreshToken);
@@ -58,9 +72,15 @@ export class AuthController {
 
   @Delete('logout')
   @ApiBody({ type: RefreshTokenDto })
+  @ApiOperation({
+    summary: 'Desconectar da aplicação',
+  })
   @ApiResponse({
     status: 400,
     description: 'Retorna os erros pelo class-validator',
+  })
+  @ApiResponse({
+    status: 200,
   })
   async logout(@Body() body: RefreshTokenDto) {
     return this.authService.logout(body.refreshToken);
