@@ -3,7 +3,10 @@
 ## :computer: Description
 
 A API VUTTR (Very Useful Tools to Remember) serve para registrar e encontrar ferramentas na área de TI que são extremamente úteis no nosso dia-a-dia.
-Nesse projeto também contém autenticação e autorização de usuários
+
+Nesse projeto também contém autenticação e autorização de usuários.
+
+Toda a aplicação está contida num container.
 
 ## :rocket: Technology
 
