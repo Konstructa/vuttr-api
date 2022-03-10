@@ -8,7 +8,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('VUTTR API - Milena')
     .setDescription(
-      'A API VUTTR (Very Useful Tools to Remember) serve para registrar e encontrar ferramentas na área de TI que são extremamente úteis no nosso dia-a-dia',
+      'A API VUTTR (Very Useful Tools to Remember) serve para registrar e encontrar ferramentas que são extremamente úteis no nosso dia-a-dia',
     )
     .setVersion('1.0')
     .addTag('tools')
