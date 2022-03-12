@@ -1,14 +1,15 @@
 FROM node:16-alpine 
-
-WORKDIR /usr/src/app
+USER node
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin
+WORKDIR /home/node
 
 COPY package*.json ./
+
+RUN npm config set unsafe-perm true
 
 RUN npm install
 
 COPY . .
-
-RUN npm run build
-
 
 CMD ["node", "dist/main"]
