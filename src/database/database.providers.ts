@@ -7,7 +7,7 @@ export const databaseProviders = [
     useFactory: async () =>
       await createConnection({
         type: 'mysql',
-        host: 'host.docker.internal' || process.env.MYSQL_DB_HOST,
+        host: process.env.MYSQL_DB_HOST,
         port: 3306 || 3308,
         username: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASSWORD,
